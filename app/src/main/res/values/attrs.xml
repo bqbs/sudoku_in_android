@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SudokuView">
+        <attr name="textColor_highlight" format="color" />
+        <attr name="textColor_pined" format="color" />
+        <attr name="textColor_fill" format="color" />
+        <attr name="circleColor_selected" format="color" />
+        <attr name="circleColor_highlight" format="color" />
+        <attr name="circleColor_pined" format="color" />
+    </declare-styleable>
+</resources>
