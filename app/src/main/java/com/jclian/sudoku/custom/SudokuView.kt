@@ -24,6 +24,7 @@ class SudokuView(
     context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int
 ) : View(context, attrs, defStyleAttr) {
 
+    private var hadDrawingLines: Boolean = false
     private var highLightTextColor = Color.parseColor("#191919")
     private var fillTextColor = Color.parseColor("#d6d6d6")
     private var pinedTextColor = Color.parseColor("#a0a0a0")
@@ -80,10 +81,12 @@ class SudokuView(
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-        drawLines(canvas!!)
-        drawCells(canvas)
-        drawNumPad(canvas)
+        super.onDraw(canvas!!)
+        canvas.apply {
+            drawLines(this)
+            drawCells(this)
+            drawNumPad(this)
+        }
 
     }
 
@@ -100,9 +103,6 @@ class SudokuView(
                 val pinNum = initData.contains(key)
                 val fillNum = fillData.contains(key)
                 val isSelected = posX == i && posY == j
-                if (pinNum) {
-
-                }
                 if (isSelected) {
                     paint.color = selectedCircleColor
                 } else {
@@ -147,8 +147,6 @@ class SudokuView(
                     )
                 }
             }
-
-
         }
     }
 
@@ -156,6 +154,7 @@ class SudokuView(
      * 画九宫线
      */
     private fun drawLines(canvas: Canvas) {
+
         val dashPath = Path()
         val paint = Paint()
         paint.color = Color.parseColor("#9c915d")
@@ -187,6 +186,7 @@ class SudokuView(
             canvas.drawPath(dashPath, p)
 
         }
+        hadDrawingLines = true
 
     }
 
@@ -309,7 +309,7 @@ class SudokuView(
                 val isPin = initData.contains("$posX,$posY")
                 if (posX != -1 && posY != -1) {
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        menuNum = if (menuNum == temp) {
+                        menuNum = if (menuNum == temp || temp == 10) {
                             -1
                         } else {
                             temp
